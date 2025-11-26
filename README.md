@@ -5,6 +5,7 @@ A comprehensive bash scanner to detect compromised npm packages from the SHA1-HU
 ## 🚨 About SHA1-HULUD pt 2
 
 SHA1-HULUD pt 2 is a supply chain attack targeting 288+ npm packages including:
+
 - PostHog packages (`@posthog/*`, `posthog-node`, etc.)
 - Zapier packages (`@zapier/*`)
 - AsyncAPI packages (`@asyncapi/*`)
@@ -45,6 +46,9 @@ chmod +x sha1-hulud-scanner.sh
 ### Examples
 
 ```bash
+# Scan a top level project folder
+./sha1-hulud-scanner.sh /path/to/your/projects
+
 # Scan a local project
 ./sha1-hulud-scanner.sh /path/to/your/project
 
@@ -91,19 +95,24 @@ Your project is clean — no SHA1-HULUD packages found.
 ## 🛡️ What it Checks
 
 ### Stage 1: Direct Dependencies
+
 Scans `package.json` for any compromised packages in `dependencies` and `devDependencies`.
 
 ### Stage 2: Node Modules
+
 Checks if compromised packages are actually installed in `node_modules/` (including transitive dependencies).
 
 ### Stage 3: Lockfiles
+
 Scans lockfiles for all package managers:
+
 - `package-lock.json` (npm)
 - `yarn.lock` (yarn)
 - `bun.lock` (bun - binary format)
 - `pnpm-lock.yaml` (pnpm)
 
 ### Stage 4: SHA1 Markers
+
 Detects packages with "sha1" in their name, which is a signature of the attack. Filters out known false positives like AWS crypto packages.
 
 ## ⚠️ If Compromised Packages Found
@@ -130,6 +139,7 @@ The scanner will show detailed remediation steps:
 ## 🔧 Known False Positives
 
 The scanner automatically excludes these legitimate packages:
+
 - `@aws-crypto/sha1-browser` - AWS SDK for S3 checksums
 - `@aws-crypto/sha256-browser` - AWS crypto utilities
 - `@aws-crypto/sha256-js` - AWS crypto utilities
@@ -141,6 +151,7 @@ The scanner automatically excludes these legitimate packages:
 The scanner checks against 288 compromised packages defined in `sha1-hulud-packages.txt`.
 
 To update the list:
+
 ```bash
 # Edit sha1-hulud-packages.txt
 # One package per line, comments supported with #
@@ -149,6 +160,7 @@ To update the list:
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Submit a pull request
